@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.template import loader
-from .models import AidRequest 
+from .models import AidRequest ,donors
 
 def aid_objects(request):
     aids = AidRequest.objects.all()
@@ -9,6 +9,16 @@ def aid_objects(request):
         'aids': aids,  
     }
     return HttpResponse(template.render(context, request))
+
+
+
+'''def aid_objects(request):
+    aids = AidRequest.objects.all()
+    template = loader.get_template('Aidobjects.html')
+    context = {
+        'aids': aids,  
+    }
+    return HttpResponse(template.render(context, request))'''
 
 
 
@@ -26,6 +36,6 @@ class AidRequestListView(generics.ListAPIView):
     queryset = AidRequest.objects.all()
     serializer_class = AidRequestSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['brandname']  
-    search_fields = ['brandname', 'message', 'title']
+    filterset_fields = ['fullname']  
+    search_fields = ['fullname', 'email', 'country']
 
