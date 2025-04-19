@@ -19,12 +19,23 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from django.views.generic.base import RedirectView
+from django.http import JsonResponse
+from mood_tracker.views import MoodEntryCreateView
+
+def home(request):
+    return JsonResponse({"message": "Welcome to PsycFlo API"})
+
+
+
 urlpatterns = [
+     path('', home),  # Base endpoint
      path('admin/', admin.site.urls),
      path('api/therapy/', include('therapy.urls')),
      path('api/aid/', include('aid.urls')),
      #path('api/', include('users.urls')),
      path('api/community/', include('community.urls')),
+     path('api/mood-entry/', MoodEntryCreateView.as_view(), name='mood-entry-create'),  # Mood entry endpoint
+
      #below is to show a home page view to the api for the community page it can be modified later, redirecting to the posts page.
      # just to avoid Page not found (404) error at /api/community/
      path('', RedirectView.as_view(url='/api/community/posts/', permanent=False), name='home'),

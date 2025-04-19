@@ -85,3 +85,4 @@ class SessionRoom(models.Model):
     room_link = models.URLField()
     session_status = models.CharField(max_length=15, choices=SESSION_STATUS, default='not_started')
     created_at = models.DateTimeField(auto_now_add=True)
+

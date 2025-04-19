@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'therapy',
     'aid',
     'chatbot', 
+    'mood_tracker',
     
 ]
 
@@ -82,16 +83,48 @@ WSGI_APPLICATION = 'psycflo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+import os
+import environ
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Initialize environment variables
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+
+# DATABASES = {
+    # 'default': {
+       
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': os.getenv('DB_NAME'),
+    #     'USER': os.getenv('DB_USER'),
+    #     'PASSWORD': os.getenv('DB_PASSWORD'),
+    #     'HOST': os.getenv('DB_HOST'),
+    #     'PORT': os.getenv('DB_PORT'),
+    # }
+# }
+    # Add these at the top of your settings.py
+import os
+from dotenv import load_dotenv
+from urllib.parse import urlparse
+
+load_dotenv()
+
+# Replace the DATABASES section of your settings.py with this
+tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'psycoflo',
-        'USER': 'postgres',
-        'PASSWORD': 'root123',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': tmpPostgres.path.replace('/', ''),
+        'USER': tmpPostgres.username,
+        'PASSWORD': tmpPostgres.password,
+        'HOST': tmpPostgres.hostname,
+        'PORT': 5432,
     }
 }
+
+
 
 
 # Password validation
