@@ -32,7 +32,7 @@ urlpatterns = [
      path('admin/', admin.site.urls),
      path('api/therapy/', include('therapy.urls')),
      path('api/aid/', include('aid.urls')),
-     #path('api/', include('users.urls')),
+     path('api/users/', include('users.urls')),
      path('api/community/', include('community.urls')),
      path('api/mood-entry/', MoodEntryCreateView.as_view(), name='mood-entry-create'),  # Mood entry endpoint
 
